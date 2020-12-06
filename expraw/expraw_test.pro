@@ -27,8 +27,8 @@ DEFINES+=QT_NO_DEBUG_OUTPUT
 # opencv include/lib path
 win32:INCLUDEPATH += $$PWD/../../sdk/win/opencv_sdk/include/
 win32:LIBS += -L$$PWD/../../sdk/win/opencv_sdk/x64/vc14/lib/
-macos:INCLUDEPATH += $$PWD/../../sdk/mac/opencv_sdk/include/
-macos:LIBS += -L$$PWD/../../sdk/mac/opencv_sdk/lib/
+macos:INCLUDEPATH += /Volumes/MAC_CODE/Workspace/sdk/opencv_sdk/include/opencv4/
+macos:LIBS += -L/Volumes/MAC_CODE/Workspace/sdk/opencv_sdk/lib/
 
 CONFIG(debug, debug|release):{
 win32:LIBS += -lopencv_core341d
@@ -43,12 +43,16 @@ macos:LIBS += -lm -lopencv_core
 # expraw library conigure
 CONFIG(debug, debug|release):{
 win32:LIBS += -L$$PWD/../buildfiles/debug-x86_64/ -lexprawd
-DESTDIR = $$PWD/../buildfiles/debug-x86_64/
+win32:DESTDIR = $$PWD/../buildfiles/debug-x86_64/
+macos:LIBS += -L/Volumes/MAC_CODE/Workspace/sdk/lib/ -lexpraw
+macos:DESTDIR = $$PWD/../bin/
 TARGET = expraw_testd
 }
 else{
 win32:LIBS += -L$$PWD/../buildfiles/release-x86_64/ -lexpraw
-DESTDIR = $$PWD/../buildfiles/release-x86_64/
+win32:DESTDIR = $$PWD/../buildfiles/release-x86_64/
+macos:LIBS += -L/Volumes/MAC_CODE/Workspace/sdk/lib/ -lexpraw
+macos:DESTDIR = $$PWD/../bin/
 TARGET = expraw_test
 }
 
