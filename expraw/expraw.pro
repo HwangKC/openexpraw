@@ -9,6 +9,8 @@ QT       -=  gui
 TARGET = expraw
 TEMPLATE = lib
 
+macos:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.13
+
 DEFINES += EXPRAW_LIBRARY
 
 # The following define makes your compiler emit warnings if you use
