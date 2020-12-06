@@ -1,6 +1,6 @@
 # openexpraw
-a wrapper for Libraw to get unprocessed data from raw file
-before using openexpraw, you should compile libraw and opencv core library
+openexpraw is just a c++ wrapper class to get unprocessed data from raw file via open with Libraw.  
+before using openexpraw, you should compile libraw (https://github.com/LibRaw/LibRaw/) and opencv core library (https://github.com/opencv).  
 
 # Intro
 1. Clone or download LibRaw 0.19/0.20 and extract to a folder, such as named Libraw
@@ -33,4 +33,5 @@ before using openexpraw, you should compile libraw and opencv core library
   DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE                    
   http://www.wtfpl.net/
   
-
+  and, thanks Libraw https://github.com/LibRaw/LibRaw/ , a great job    
+  
