@@ -29,8 +29,8 @@ macos:INCLUDEPATH += $$PWD/../libraw/
 # opencv include/lib path
 win32:INCLUDEPATH += $$PWD/../../sdk/win/opencv_sdk/include/
 win32:LIBS += -L$$PWD/../../sdk/win/opencv_sdk/x64/vc14/lib/
-macos:INCLUDEPATH += /Volumes/MAC_CODE/Workspace/sdk/opencv_sdk/include/opencv4/
-macos:LIBS += -L/Volumes/MAC_CODE/Workspace/sdk/opencv_sdk/lib/
+macos:INCLUDEPATH += $$PWD/../../sdk/opencv_sdk/include/opencv4/
+macos:LIBS += -L$$PWD/../../sdk/opencv_sdk/lib/
 
 CONFIG(debug, debug|release):{
 win32:LIBS += -lopencv_core341d
@@ -46,7 +46,7 @@ CONFIG(debug, debug|release):{
 message("Linking DEBUG version dynamic library")
 win32:LIBS += -L$$PWD/../buildfiles/debug-x86_64/ -llibraw
 win32:DESTDIR = $$PWD/../buildfiles/debug-x86_64/
-macos:LIBS += -L/Volumes/MAC_CODE/Workspace/sdk/lib/ -lraw
+macos:LIBS += -L$$PWD/../../sdk/lib/ -lraw
 macos:DESTDIR = $$PWD/../lib/
 TARGET = exprawd
 }
@@ -54,7 +54,7 @@ else{
 message("Linking RELEASE version dynamic library")
 win32:LIBS += -L$$PWD/../buildfiles/release-x86_64/ -llibraw
 win32:DESTDIR = $$PWD/../buildfiles/release-x86_64/
-macos:LIBS += -L/Volumes/MAC_CODE/Workspace/sdk/lib/ -lraw
+macos:LIBS += -L$$PWD/../../sdk/lib/ -lraw
 macos:DESTDIR = $$PWD/../lib/
 TARGET = expraw
 }
