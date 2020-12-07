@@ -3,7 +3,6 @@
 
 #include "expraw_global.h"
 #include <QString>
-#include <QPair>
 #include <opencv2/opencv.hpp>
 
 class LibRaw;
