@@ -24,6 +24,10 @@ CONFIG(release,debug|release)
 DEFINES+=QT_NO_DEBUG_OUTPUT
 }
 
+# libraw include path
+win32:INCLUDEPATH += $$PWD/../
+macos:INCLUDEPATH += $$PWD/../
+
 # opencv include/lib path
 win32:INCLUDEPATH += $$PWD/../../sdk/win/opencv_sdk/include/
 win32:LIBS += -L$$PWD/../../sdk/win/opencv_sdk/x64/vc14/lib/
@@ -31,12 +35,12 @@ macos:INCLUDEPATH += $$PWD/../../sdk/opencv_sdk/include/opencv4/
 macos:LIBS += -L$$PWD/../../sdk/opencv_sdk/lib/
 
 CONFIG(debug, debug|release):{
-win32:LIBS += -lopencv_core341d
-macos:LIBS += -lm -lopencv_core
+win32:LIBS += -lopencv_core341d -lopencv_imgcodecs341d
+macos:LIBS += -lm -lopencv_core -lopencv_imgcodecs
 }
 else{
-win32:LIBS += -lopencv_core341
-macos:LIBS += -lm -lopencv_core
+win32:LIBS += -lopencv_core341 -lopencv_imgcodecs341
+macos:LIBS += -lm -lopencv_core -lopencv_imgcodecs
 }
 
 

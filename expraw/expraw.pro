@@ -11,6 +11,7 @@ TEMPLATE = lib
 
 macos:QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.13
 
+#DEFINES += USE_ADOBE_DNG_SDK
 DEFINES += EXPRAW_LIBRARY
 
 # The following define makes your compiler emit warnings if you use
@@ -25,22 +26,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # libraw include path
-win32:INCLUDEPATH += $$PWD/../libraw/
-macos:INCLUDEPATH += $$PWD/../libraw/
+win32:INCLUDEPATH += $$PWD/../
+macos:INCLUDEPATH += $$PWD/../
 
-# opencv include/lib path
-win32:INCLUDEPATH += $$PWD/../../sdk/win/opencv_sdk/include/
-win32:LIBS += -L$$PWD/../../sdk/win/opencv_sdk/x64/vc14/lib/
-macos:INCLUDEPATH += $$PWD/../../sdk/opencv_sdk/include/opencv4/
-macos:LIBS += -L$$PWD/../../sdk/opencv_sdk/lib/
+# configure the adobe sdk
+contains( DEFINES, USE_ADOBE_DNG_SDK ){
+
+win32:INCLUDEPATH += $$PWD/../../../DNG_SDK/sdk/include
+macos:INCLUDEPATH += $$PWD/../../../DNG_SDK/sdk/include
 
 CONFIG(debug, debug|release):{
-win32:LIBS += -lopencv_core341d
-macos:LIBS += -lm -lopencv_core
+win32:LIBS += -L$$PWD/../../../DNG_SDK/sdk/lib/debug -llibdngsdkd
+macos:LIBS += -L$$PWD/.././../DNG_SDK/sdk/lib/debug -ldngsdk
 }
 else{
-win32:LIBS += -lopencv_core341
-macos:LIBS += -lm -lopencv_core
+win32:LIBS += -L$$PWD/../../../DNG_SDK/sdk/lib/ -llibdngsdk
+macos:LIBS += -L$$PWD/../../../DNG_SDK/sdk/lib/ -ldngsdk
+}
+
 }
 
 # expraw library conigure

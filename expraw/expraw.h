@@ -3,9 +3,7 @@
 
 #include "expraw_global.h"
 #include <QString>
-#include <opencv2/opencv.hpp>
-
-class LibRaw;
+#include <libraw/libraw.h>
 
 #define EXPRAW_LIBRAW_CBLACK_SIZE   (4104)
 #define EXPRAW_LIBRAW_SUCCESS       (0)
@@ -90,22 +88,41 @@ struct EXPRAWSHARED_EXPORT RawInfo
 class EXPRAWSHARED_EXPORT Expraw
 {
 public:
+    typedef enum _tagBayerDataType
+    {
+		BDT_UNKNOWN = 0,
+        BDT_16UC1	= 2,
+		BDT_16UC3	= 18,
+		BDT_16UC4	= 26,
+    }BAYER_DATA_TYPE;
+
+public:
     Expraw(QString rawFile);
     ~Expraw();
 
     const RawInfo& get_raw_info() const;
 
-    int decode();
+    int	decode();
+#ifdef USE_ADOBE_DNG_SDK
+    void set_use_dng_sdk();
+#endif
+    const ushort* bayer_data(ushort& width,ushort& height,BAYER_DATA_TYPE& bdt) const;
 
-    const cv::Mat& get_raw_data() const;
-
-    const char *error_message(int e);
-
+public:
+    const char  *error_message(int e);
+    bool        is_xtrans();
+    bool        is_foveon();
 private:
-    QString m_rawFileName;
-    LibRaw* m_rawProcessor;
-    RawInfo m_rawInfo;
-    cv::Mat m_rawData;
+    QString             m_rawFileName;
+    RawInfo             m_rawInfo;
+    ushort*             m_bayerData;
+    bool                m_useDngSdk;
+    BAYER_DATA_TYPE     m_bayerDataType;
+    ushort              m_outputHeight;
+    ushort              m_outputWidth;
+    bool                m_isXtrans;
+    bool                m_isFoveon;
+    LibRaw              m_rawProcessor;
 };
 
 #endif // EXPRAW_H

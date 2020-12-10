@@ -1,4 +1,5 @@
 ﻿#include "expraw.h"
+#include <opencv2/opencv.hpp>
 
 std::string type2str(int type)
 {
@@ -108,16 +109,51 @@ int main(int argc, char *argv[])
 
     QString filename(argv[1]);
     Expraw export_raw(filename);
+#ifdef USE_ADOBE_DNG_SDK
+    export_raw.set_use_dng_sdk();
+#endif
     int ret = export_raw.decode();
     if (ret == 0)
     {
-        //get a cv::Mat object raw data
-        cv::Mat bayer = export_raw.get_raw_data();
-        std::cout << "Raw data mat type: " << type2str(bayer.type()).c_str() << std::endl;
-
         //get some info of raw image
         RawInfo raw_info = export_raw.get_raw_info();
         outputRawInfo(raw_info);
+
+		Expraw::BAYER_DATA_TYPE bdt = Expraw::BDT_UNKNOWN;
+		cv::Mat image;
+        ushort width;
+        ushort height;
+        const ushort* bayer = export_raw.bayer_data(width,height,bdt);
+       
+		if (!bayer)
+		{
+			printf("Failed to get bayer data \n");
+			return -1;
+		}
+
+        std::cout << "Raw bayer data type: " << type2str((int)bdt).c_str() << std::endl;
+        cv::Size csize(width, height);
+
+		switch (bdt)
+		{
+		case Expraw::BDT_16UC1:
+            image = cv::Mat(height,width,bdt,(ushort*)bayer);
+			break;
+		case Expraw::BDT_16UC3:
+		case Expraw::BDT_16UC4:
+            image = cv::Mat(csize,bdt,(ushort*)bayer,cv::Mat::AUTO_STEP);
+			break;
+		default:
+			assert(false);
+			break;
+		}
+
+		std::vector<int> tags = { 259, 1 };
+		char outfn[1024] = { 0 };
+		snprintf(outfn, sizeof(outfn), "%s_cv.tiff", argv[1]);
+		cv::imwrite(outfn, image, tags);
+
+        return 0;
     }
     else
     {
