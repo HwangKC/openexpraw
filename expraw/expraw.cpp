@@ -63,15 +63,14 @@ int Expraw::decode()
     m_isXtrans = false;
     if (m_rawInfo.make.toUpper() == "FUJIFILM")
     {
-        //-4 -w -T -v -H 1 -M -o 0
         m_isXtrans = true;
-        m_rawProcessor.imgdata.params.output_color = 0; //-o 0
-        m_rawProcessor.imgdata.params.highlight = 1; //-H 1
-        m_rawProcessor.imgdata.params.use_camera_matrix = 0; //-M
-        m_rawProcessor.imgdata.params.gamm[0] = m_rawProcessor.imgdata.params.gamm[1] = m_rawProcessor.imgdata.params.no_auto_bright = 1; //-4
-        m_rawProcessor.imgdata.params.use_camera_wb = 1; //-w
-        m_rawProcessor.imgdata.params.output_tiff = 1; //-T
-        m_rawProcessor.imgdata.params.output_bps = 16; //-4
+        m_rawProcessor.imgdata.params.output_color = 0;
+        m_rawProcessor.imgdata.params.highlight = 1;
+        m_rawProcessor.imgdata.params.use_camera_matrix = 0;
+        m_rawProcessor.imgdata.params.gamm[0] = m_rawProcessor.imgdata.params.gamm[1] = m_rawProcessor.imgdata.params.no_auto_bright = 1;
+        m_rawProcessor.imgdata.params.use_camera_wb = 1;
+        m_rawProcessor.imgdata.params.output_tiff = 1;
+        m_rawProcessor.imgdata.params.output_bps = 16;
         m_rawProcessor.imgdata.params.user_qual = 0;
     }
 
@@ -79,8 +78,6 @@ int Expraw::decode()
     {
         return ret;
     }
-
-    int i=0;
 
     m_rawInfo.raw_width = m_rawProcessor.imgdata.sizes.raw_width;
     m_rawInfo.raw_height = m_rawProcessor.imgdata.sizes.raw_height;
@@ -96,7 +93,7 @@ int Expraw::decode()
     m_rawInfo.dng_version = m_rawProcessor.imgdata.idata.dng_version;
     m_rawInfo.is_foveon = m_rawProcessor.imgdata.idata.is_foveon;
 
-    for(i=0;i<4;i++)
+    for(int i=0;i<4;i++)
     {
         m_rawInfo.cblack[i]          = m_rawProcessor.imgdata.color.cblack[i];
         m_rawInfo.cam_multiplier[i]  = m_rawProcessor.imgdata.color.cam_mul[i];
